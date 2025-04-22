@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/redis/go-redis/v9"
 	"log"
+	"time"
 )
 
 type DbAccess struct {
@@ -25,8 +26,8 @@ func (db *DbAccess) AddTask(list string, data []byte) {
 }
 
 func (db *DbAccess) GetTask(list string) ([]byte, error) {
-	result, err := db.rdb.LPop(context.Background(), list).Bytes()
-	return result, err
+	result, err := db.rdb.BLPop(context.Background(), 1*time.Second, list).Result()
+	return []byte(result[1]), err
 }
 
 func (db *DbAccess) AddResult(key string, data []byte) {

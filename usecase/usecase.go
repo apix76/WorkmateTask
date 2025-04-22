@@ -3,10 +3,7 @@ package usecase
 import (
 	"WorkmateTask/db"
 	"encoding/json"
-	"github.com/labstack/echo/v4"
-	"github.com/redis/go-redis/v9"
 	"log"
-	"time"
 )
 
 type Usecase struct {
@@ -17,7 +14,7 @@ func New(dbAccess db.DbAccess) *Usecase {
 	return &Usecase{dbAccess}
 }
 
-func (uc *Usecase) Workmate(c echo.Context) {
+func (uc *Usecase) Workmate() {
 	uc.sum()
 }
 
@@ -30,10 +27,6 @@ func (uc *Usecase) sum() {
 			value2 int
 		}
 		rawData, err := uc.DbAccess.GetTask("sum")
-		if err == redis.Nil {
-			time.Sleep(1 * time.Second)
-			continue
-		}
 
 		err = json.Unmarshal(rawData, &data)
 		if err != nil {

@@ -3,6 +3,7 @@ package rest
 import (
 	"WorkmateTask/conf"
 	"WorkmateTask/db"
+	"WorkmateTask/usecase"
 	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"github.com/redis/go-redis/v9"
@@ -13,6 +14,9 @@ import (
 )
 
 func Server(con conf.Conf, db db.DbAccess) {
+	use := usecase.New(db)
+	use.Workmate()
+	
 	e := echo.New()
 	e.GET("/sum", func(c echo.Context) error {
 		var sum struct {
