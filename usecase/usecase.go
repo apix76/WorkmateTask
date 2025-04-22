@@ -15,7 +15,7 @@ func New(dbAccess db.DbAccess) *Usecase {
 }
 
 func (uc *Usecase) Workmate() {
-	uc.sum()
+	go uc.sum()
 }
 
 func (uc *Usecase) sum() {
